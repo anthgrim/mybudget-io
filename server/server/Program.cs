@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using server.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Allow origins
@@ -12,6 +15,12 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins("http://localhost:3000", "localhost:3000");
     });
+});
+
+// Adding Db Service
+builder.Services.AddDbContext<BudgetDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddControllers();
